@@ -6,7 +6,21 @@
 ## Properties and variables.
 
 * Все свойства и переменные независимо от типов используют $camelCase для названий.
-`$snake_case` запрещен.
+`$snake_case` запрещен. Это же правило касается протоколов клиент-сервер:
+
+```json
+//bad
+{
+	"is_main": 1
+}
+
+//good
+{
+	"isMain": 1
+}
+```
+
+В полях БД используется только `snake_case`. В параметрах подстановки шаблонов и строковых литералах допустимы обе нотации.
 
 * Модификаторов видимости private рекомендуется избегать.
 
@@ -18,9 +32,9 @@ class Foo {
 
 	protected $isBool;
 
-	public function foo($countVar, MyObject $MyObject) {
+	public function foo($countVar, myObject $myObject) {
 		$countVar++;
-		$MyObject->bar();
+		$myObject->bar();
 	}
 
 }
@@ -33,9 +47,69 @@ class Foo {
 The exceptions (when using PHPUnit) to this rule are the class constructor and the `setUp` and `tearDown` methods of PHPUnit tests,
 which should always be the first methods to increase readability.
 
+##Namespaces
+
+Неймспейс должен содержать любой файл, содержащий объявление класса, а также скрипт.
+
+При импорте классов мы придерживаемся двух рекомендаций: 
+* Не импортируем мого классов из одного неймспейса, предпочитая импортировать базовый
+
+```php
+//Bad
+use Karaoke\Entity\Song;
+use Karaoke\Entity\Content;
+use Karaoke\Entity\Foo;
+
+echo Song::class . Content::class . Foo::class;
+
+//Good
+use Karaoke\Entity;
+
+echo Entity\Song::class . Entity\Content::class . Entity\Foo::class
+
+```
+
+* Используемое в коде имя класса должно быть однозначным и определенным, оно не должно требовать перехода к объявлению, чтобы понять, что это за сущность
+
+```php
+//Bad
+use Karaoke\Entity\Song;
+use Karaoke\Exception\Logic;
+
+$song = new Song();
+throw new Logic;
+
+<...>
+
+use Karaoke\View\Song;
+
+$song = new Song();
+
+//Good
+use Karaoke\Entity;
+use Karaoke\Exception;
+
+$song = new Entity\Song();
+throw new Exception\Logic;
+
+<...>
+
+use Karaoke\View;
+
+$song = new View\Song();
+
+```
+
 ## Traits
 
 Трейты использовать запрещено.
+
+##Reflections
+Использовать reflection api запрещено.
+
+##get_class
+Избегать использования get_class.
+Не использовать конструкции типа new $class не в сущностях, предназначенных для порождения объектов. 
 
 ## Ternary Operator
 Ternary operators should not ever be nested.
@@ -233,7 +307,7 @@ they only show actual changes made.
 ## Typehinting
 Arguments that expect objects, arrays or callbacks (callable) can be typehinted. 
 
-При возможности используем тайпхинтинг на интерфейсы (`UserInterface`) вместо клвссов объектов (`User`). Разумеется, это не касается случая, когда явно используется метод объекта, но не интерфейса.
+При возможности используем тайпхинтинг на интерфейсы (`UserInterface`) вместо классов объектов (`User`). Разумеется, это не касается случая, когда явно используется метод объекта, но не интерфейса.
 
 ```php
 /**
@@ -514,3 +588,7 @@ $object
 	->doSecond();
 ```
 
+###Naming
+
+* Название таблиц в БД в единственном числе: "user", "song", "foo"
+* 

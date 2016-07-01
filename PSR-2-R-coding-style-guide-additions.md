@@ -32,7 +32,7 @@ class Foo {
 
 	protected $isBool;
 
-	public function foo($countVar, myObject $myObject) {
+	public function foo($countVar, MyObject $myObject) {
 		$countVar++;
 		$myObject->bar();
 	}

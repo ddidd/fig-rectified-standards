@@ -1,7 +1,7 @@
 # Coding Style Guide Additions
 #Базовый стандарт - на английском языке, дополнения - на русском.
 
-Данные рекомендации рекомендуется использовать при написании нового кода.
+Стандарт предлагается для написания нового кода. Стиль имеющегося кода в случае несоответствия менять без необходимости не рекомендуется.
 
 ## Properties and variables.
 
@@ -74,16 +74,7 @@ if ($isAdmin) {
 ```
 
 ## PHP Open Tags
-Always use `<?php` instead of `<?`.
-
-Avoid using the `<?= ... ?>` short tags. They are also difficult to comment out if desired.
-It is better to consistently use
-```html
-This <?php echo h($var); ?>
-
-Another <?php //echo h($var); ?> commented out one
-```
-Commenting out with `<!--  -->` should be avoided as it is then visible in the resulting HTML output.
+Always use `<?php`.
 
 ## Comparison
 
